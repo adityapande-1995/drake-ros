@@ -184,5 +184,63 @@ geometry_msgs::msg::Wrench SpatialForceToRosWrench(
   return result;
 }
 
+// TODO(Aditya)
+drake::perception::PointCloud RosPointCloudToPointCloud(
+    const sensor_msgs::msg::PointCloud& pointcloud) {
+
+  int count = pointcloud.points.size();
+  auto drakePointCloud = drake::perception::PointCloud(count);
+  // ROS Pointcloud will always have XYZ points, copy
+  // them over as an Eigen Matrix.
+  Eigen::Matrix3Xf xyzs(3, count);
+  for (int i = 0; i < count ; i++) {
+    xyzs(0,i) = pointcloud.points[i].x;
+    xyzs(1,i) = pointcloud.points[i].y;
+    xyzs(2,i) = pointcloud.points[i].z;
+  }
+
+  drakePointCloud.mutable_xyzs() = xyzs;
+
+  return drakePointCloud;
+}
+
+// TODO(Aditya)
+sensor_msgs::msg::PointCloud PointCloudToRosPointCloud(
+    const drake::perception::PointCloud& pointcloud) {
+
+  auto rosPointCloud = sensor_msgs::msg::PointCloud();
+  int count = pointcloud.size();
+  rosPointCloud.points.resize(count);
+
+  auto xyzs = pointcloud.xyzs();
+
+  for (int i = 0; i < count; i++) {
+    rosPointCloud.points[i].x = xyzs(0,i);
+    rosPointCloud.points[i].y = xyzs(1,i);
+    rosPointCloud.points[i].z = xyzs(2,i);
+  }
+
+  return rosPointCloud;
+}
+
+// TODO(Aditya)
+drake::perception::PointCloud RosPointCloud2ToPointCloud(
+    const sensor_msgs::msg::PointCloud2& pointcloud) {
+  auto drakePointCloud = drake::perception::PointCloud();
+
+  return drakePointCloud;
+
+}
+
+// TODO(Aditya)
+sensor_msgs::msg::PointCloud2 PointCloudToRosPointCloud2(
+    const drake::perception::PointCloud& pointcloud) {
+  auto rosPointCloud2 = sensor_msgs::msg::PointCloud2();
+
+  return rosPointCloud2;
+
+}
+
+
 }  // namespace core
 }  // namespace drake_ros

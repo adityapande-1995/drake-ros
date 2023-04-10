@@ -33,6 +33,7 @@ expressing it).
 #include <drake/common/eigen_types.h>
 #include <drake/math/rigid_transform.h>
 #include <drake/multibody/math/spatial_algebra.h>
+#include <drake/perception/point_cloud.h>
 #include <geometry_msgs/msg/accel.hpp>
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/pose.hpp>
@@ -40,6 +41,8 @@ expressing it).
 #include <geometry_msgs/msg/transform.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/wrench.hpp>
+#include <sensor_msgs/msg/point_cloud.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
 
 namespace drake_ros {
 namespace core {
@@ -127,6 +130,20 @@ drake::multibody::SpatialForce<double> RosWrenchToSpatialForce(
 
 geometry_msgs::msg::Wrench SpatialForceToRosWrench(
     const drake::multibody::SpatialForce<double>& force);
+
+// PointClouds.
+
+drake::perception::PointCloud RosPointCloudToPointCloud(
+    const sensor_msgs::msg::PointCloud& pointcloud);
+
+sensor_msgs::msg::PointCloud PointCloudToRosPointCloud(
+    const drake::perception::PointCloud& pointcloud);
+
+drake::perception::PointCloud RosPointCloud2ToPointCloud(
+    const sensor_msgs::msg::PointCloud2& pointcloud);
+
+sensor_msgs::msg::PointCloud2 PointCloudToRosPointCloud2(
+    const drake::perception::PointCloud& pointcloud);
 
 }  // namespace core
 }  // namespace drake_ros
